@@ -1,0 +1,126 @@
+body{
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+	height: 100%;
+	background-image:url(../../resources/images/login-bg1.jpg);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
+    -moz-background-size:100% 75%;
+    background-size:100% 75%;
+}
+#canvas {
+	width: 550px;
+	height: 350px;
+	overflow: hidden;
+	position: absolute;
+	top: 12%;
+}
+.login-window {
+	width: 550px;
+	height: 350px;
+	background-color: whitesmoke;
+	/*圆角*/
+	border-radius: 15px;
+	-moz-border-radius: 15px;
+	-webkit-border-radius: 15px;
+	透明度
+	filter:alpha(opacity=70); 
+    -moz-opacity:0.7; 
+    opacity:0.7;
+	position: absolute;
+	left: 30%;
+	top: 24%;
+	line-height: 60px;
+}
+
+.login-window-input {
+	position: relative;
+	top: 20%;
+	left: 25%;
+}
+
+.login-account {
+	width: 200px;
+	height: 35px;
+	/*圆角*/
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border: 1px solid #1D9BC1;
+	vertical-align: middle;
+}
+
+.login-account-span {
+	vertical-align: middle;
+	font-family: "微软雅黑";
+	font-size: large;
+	color: #1D9BC1;
+}
+
+.login-password {
+	width: 200px;
+	height: 35px;
+	/*圆角*/
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border: 1px solid #1D9BC1;
+	vertical-align: middle;
+}
+
+.login-password-span {
+	vertical-align: middle;
+	font-family: "微软雅黑";
+	font-size: large;
+	color: #1D9BC1;
+}
+
+.login-btn {
+	width: 100px;
+	height: 30px;
+	line-height: 30px;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border: 1px solid #1D9BC1;
+	color: #1D9BC1;
+	cursor: pointer;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.save-pwd {
+	color: #666666;
+	cursor: pointer;
+	font-family: '微软雅黑';
+	font-size: 13px;
+	color: #1D9BC1;
+	vertical-align: middle;
+}
+
+.save-pwd-checkbox {
+	vertical-align: middle;
+	border: 1px solid #1D9BC1;
+}
+
+.login-title {
+	width: 257px;
+	height: 59px;
+	position: absolute;
+	top: 2%;
+	left: 10%;
+}
+.login-bottom{
+	width: 100%;
+	position: absolute;
+	bottom: 2px;
+	text-align: center;
+}
+.login-bottom span{
+	font-family: "微软雅黑";
+	font-size: 12px;
+	color: #7F7F7F;
+}

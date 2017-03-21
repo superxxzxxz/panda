@@ -1,0 +1,85 @@
+package com.xxz.login.action;
+
+import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.xxz.common.tool.Pub;
+import com.xxz.login.entity.PAccount;
+import com.xxz.login.service.LoginSystemService;
+/**
+ * 
+ * @author xxz
+ *登录控制器
+ */
+@Controller
+public class LoginSystemAction {
+	@Autowired
+	@Qualifier("loginSystemService")
+	private LoginSystemService loginSystemService;
+	public LoginSystemService getLoginSystemService() {
+		return loginSystemService;
+	}
+	public void setLoginSystemService(LoginSystemService loginSystemService) {
+		this.loginSystemService = loginSystemService;
+	}
+	/**
+	 * 系统登录
+	 */
+	@RequestMapping("/userLoginAction.do")
+	public void userLoginAction(HttpServletRequest request,HttpServletResponse response,HttpSession session,String account,String password,String savepwd){
+		PAccount paccount=(PAccount) this.loginSystemService.userLoginService(account, password);
+		try {
+			String sendRedirectUrl="login.do";//登录后要重定向的URL
+			if(paccount!=null){//用户不为空
+				session.setAttribute("user",paccount);
+				Cookie[] cookies=request.getCookies(); 
+				boolean isc=true;
+				if(!Pub.outofnull(savepwd).equals("")){//判断是否保存密码
+					if(cookies!=null){ 
+						for(int i=0;i<cookies.length;i++){ 
+							if(cookies[i].getName().equals("logineduser")){  
+								cookies[i].setValue(paccount.getAccount()+"&&"+paccount.getPassword());
+								response.addCookie(cookies[i]);
+								isc=false;
+							}
+						}
+						if(isc){
+							Cookie userck = null;
+							userck = new Cookie("logineduser", paccount.getAccount()+"&&"+paccount.getPassword()); 
+							userck.setMaxAge(60 * 60 * 24 * 30);   //设置Cookie有效期为30天
+							response.addCookie(userck);
+						}
+					}
+				}else{
+					Cookie userck = new Cookie("logineduser", null);
+					userck.setMaxAge(0);   //删除Cookie
+					response.addCookie(userck);
+				}
+			}else{
+				request.setAttribute("errors", "登陆失败,请输入正确的账号或密码！");
+				sendRedirectUrl = "login.do";
+				RequestDispatcher dispatcher = request.getRequestDispatcher(sendRedirectUrl);
+				dispatcher.forward(request, response);
+				return ;
+			}
+			response.sendRedirect("index.jsp");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ServletException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}
