@@ -34,7 +34,7 @@
     <init-param>
       <param-name>notFilterDir</param-name>
       <param-value>
-      			/resources,/layui,/index.jsp,/login.do,/login.jsp,/userLoginAction.do,/secureaccessurl.do,/saveUserAll.do,/getUserId.do,/userManagement.jsp,/ 
+      			/resources,/layui,/login.do,/login.jsp,/userLoginAction.do,/secureaccessurl.do,/saveUserAll.do,/getUserId.do,/userManagement.jsp,/ 
 	 </param-value>
     </init-param>
   </filter>

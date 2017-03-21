@@ -77,7 +77,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   			</div>
   			  <div class="layui-form-item">
 			    <div class="layui-input-block">
-			      <button class="layui-btn"  lay-submit lay-filter="*" type="submit" onclick="submitUser()"><i class="layui-icon">&#xe618; </i> 立 即 保 存</button>
+			      <button class="layui-btn"  lay-submit lay-filter="*" type="submit"><i class="layui-icon">&#xe618; </i> 立 即 保 存</button>
 			      <button id="reset" type="reset" class="layui-btn layui-btn-warm"><i class="layui-icon">&#xe60e; </i> 重 置</button>
 			      <button id="close_btn" class="layui-btn layui-btn-danger"><i class="layui-icon">&#x1006; </i> 关 闭</button>
 			    </div>
@@ -87,9 +87,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </body>
   <script>
    var url="";
-   var form;
    layui.use('form', function(){
-   form = layui.form(); //只有执行了这一步，部分表单元素才会修饰成功
+    var form = layui.form(); //只有执行了这一步，部分表单元素才会修饰成功
    	var url_iframeid=getQueryString('iframeid');//通过url参数获取弹层唯一ID判断添加和修改
    	if(url_iframeid=="add-iframe"){
    		$('#reset').click();//添加侧清空form
@@ -102,9 +101,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  ,layer = layui.layer
 	  ,layedit = layui.layedit
 	  ,laydate = layui.laydate;
-	  form.on('submit(*)', function(data){
-		  //默认提交方式
-	  });
 	  //自定义验证规则
 		form.verify({
 		  username: function(value){
@@ -155,20 +151,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			  	 }
 			  }
 		  });
-	  });
-	  //监听关闭按钮
-		$('#close_btn').on('click',function(){
-			 var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-		     parent.layer.close(index); //执行关闭自身操作
-		 	 return false;
-		}); 
-   });
-	 function submitUser(){
-			  //var s=this.form.verify();
-			  //alert(JSON.stringify(s))
-			  return false;
-		  	  var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
-		   	  $.ajax({
+		  //监听提交
+		 form.on('submit(*)', function(data){
+		  //默认提交方式
+		   var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+		   	  $.ajax({//使用ajax提交表单
 				  type: 'POST',
 				  url: url,
 				  data:$('#userForm').serialize(),
@@ -187,7 +174,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					}
 				  }
 			  });
-			}
+	  	});
+	  });
+	  //监听关闭按钮
+		$('#close_btn').on('click',function(){
+			 var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
+		     parent.layer.close(index); //执行关闭自身操作
+		 	 return false;
+		}); 
+   });
    function getQueryString(name) {//获取url参数方法
 	var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
 	var r = window.location.search.substr(1).match(reg);
