@@ -12,8 +12,8 @@
 
 /* 头部 */admin-side-toggle
 .header{height: 65px; border-bottom: 1px solid #404553;  background-color: #393D49; color: #fff;}
-.logo{position: absolute; left: 0px; top: 12px;}
-.logo .logo-panda{width: 40px; height: 40px;}
+.logo{position: absolute; left: 0px; top: -5px;}
+.logo .logo-panda{width: 200px; height: 70px;}
 .logo-font{font-family:cursive;font-size: 22px;padding-left: 10px;}
 .header .layui-nav{position: absolute; right: 0; top: 0; padding: 0; background: none;}
 .header .layui-nav .layui-nav-item{margin: 0 20px; line-height: 66px;}
@@ -28,7 +28,7 @@
 .header-index{background-color: #080018; border: none;}
 
 .layui-layout-admin .header-demo{border-bottom-color: #1AA094; background-color: #fff;}
-.header-demo .logo{left: 50px;}
+.header-demo .logo{left: 0px;}
 .header-demo .layui-nav{top: 0;}
 .header-demo .layui-nav .layui-nav-item{margin: 0 10px; line-height: 65px;}
 .header-demo .layui-nav .layui-nav-item a{color: #999;}
