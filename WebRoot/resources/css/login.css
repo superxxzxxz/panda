@@ -3,43 +3,53 @@ body{
 	padding: 0px;
 	width: 100%;
 	height: 100%;
-	background-image:url(../../resources/images/login-bg1.jpg);
+	background-image:url(../../resources/images/login-bg.jpg);
 	background-position: center;
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";
     -moz-background-size:100% 75%;
     background-size:100% 75%;
+    overflow-y:hidden;
+    overflow-x:hidden; 
 }
-#canvas {
+/*#canvas {
 	width: 550px;
 	height: 350px;
 	overflow: hidden;
 	position: absolute;
 	top: 12%;
-}
+}*/
 .login-window {
 	width: 550px;
 	height: 350px;
-	background-color: whitesmoke;
+	background-color: white;
 	/*圆角*/
 	border-radius: 15px;
 	-moz-border-radius: 15px;
 	-webkit-border-radius: 15px;
-	透明度
-	filter:alpha(opacity=70); 
-    -moz-opacity:0.7; 
-    opacity:0.7;
-	position: absolute;
-	left: 30%;
-	top: 24%;
+	/*透明度*/
+	filter:alpha(opacity=90); 
+    -moz-opacity:0.9; 
+    opacity:0.9;
+	/*position: relative;
+	left: 33%;
+	top: 24%;*/
+	margin:0 auto;
 	line-height: 60px;
+	margin-top: 12%;
 }
 
 .login-window-input {
-	position: relative;
+	/*position: relative;
 	top: 20%;
-	left: 25%;
+	left: 25%;*/
+	position: relative;
+	width:320px;
+	height:auto;
+	margin:0px auto;
+	top:20%;
+	
 }
 
 .login-account {
@@ -110,7 +120,7 @@ body{
 	width: 257px;
 	height: 59px;
 	position: absolute;
-	top: 2%;
+	top: 1.5%;
 	left: 10%;
 }
 .login-bottom{
@@ -124,3 +134,12 @@ body{
 	font-size: 12px;
 	color: #7F7F7F;
 }
+.login-bottom-tool{
+	margin: 20px 0px 0px 0px;
+}
+.layui-btn{
+width: 175px;
+}
+.layui-form-item .captcha{position: absolute;right:1px;top:1px;border-left: 1px solid #e6e6e6 }
+.layui-form-item .captcha img{height: 36px;cursor:pointer;}
+.layui-form-item .input-custom-width{width:300px; }

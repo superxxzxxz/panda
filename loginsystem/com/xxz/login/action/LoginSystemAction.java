@@ -1,6 +1,8 @@
 package com.xxz.login.action;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.xxz.common.tool.Pub;
+import com.xxz.common.tool.ValidateCode;
 import com.xxz.login.entity.PAccount;
 import com.xxz.login.service.LoginSystemService;
 /**
@@ -33,15 +36,36 @@ public class LoginSystemAction {
 	public void setLoginSystemService(LoginSystemService loginSystemService) {
 		this.loginSystemService = loginSystemService;
 	}
+	private ValidateCode vc=new ValidateCode();
+	/**
+	 * 获取验证码
+	 */
+	@RequestMapping("/validateCode.do")
+	public void validateCode(HttpServletRequest request,HttpSession session,HttpServletResponse response){
+		int w = 192, h = 60;
+		try {
+		String verification_Code=vc.generateVerifyCode(4);//验证码位数
+		session.setAttribute("vcode",verification_Code);//存入session，登录时匹配
+		OutputStream os = response.getOutputStream();//创建输出流
+		vc.outputImage(w, h, os, verification_Code);//输出显示
+		os.flush();
+		os.close();
+		os = null;
+		response.flushBuffer();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	/**
 	 * 系统登录
 	 */
 	@RequestMapping("/userLoginAction.do")
-	public void userLoginAction(HttpServletRequest request,HttpServletResponse response,HttpSession session,String account,String password,String savepwd){
+	public void userLoginAction(HttpServletRequest request,HttpServletResponse response,HttpSession session,String account,String password,String savepwd,String verification_code){
 		PAccount paccount=(PAccount) this.loginSystemService.userLoginService(account, password);
 		try {
 			String sendRedirectUrl="login.do";//登录后要重定向的URL
-			if(paccount!=null){//用户不为空
+			String sv_code=(String) session.getAttribute("vcode");//获取session中的验证码匹配
+			if(paccount!=null&&Pub.outofnull(sv_code).equalsIgnoreCase(Pub.outofnull(verification_code))){//用户不为空并且验证码相等（验证码不考虑大小写）
 				session.setAttribute("user",paccount);
 				Cookie[] cookies=request.getCookies(); 
 				boolean isc=true;
@@ -66,8 +90,14 @@ public class LoginSystemAction {
 					userck.setMaxAge(0);   //删除Cookie
 					response.addCookie(userck);
 				}
-			}else{
+			}else if(paccount==null){
 				request.setAttribute("errors", "登陆失败,请输入正确的账号或密码！");
+				sendRedirectUrl = "login.do";
+				RequestDispatcher dispatcher = request.getRequestDispatcher(sendRedirectUrl);
+				dispatcher.forward(request, response);
+				return ;
+			}else if(!Pub.outofnull(sv_code).equals(verification_code)){
+				request.setAttribute("errors", "登陆失败,请输入正确的验证码！");
 				sendRedirectUrl = "login.do";
 				RequestDispatcher dispatcher = request.getRequestDispatcher(sendRedirectUrl);
 				dispatcher.forward(request, response);
