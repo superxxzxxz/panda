@@ -42,7 +42,7 @@ public class LoginSystemAction {
 	 */
 	@RequestMapping("/validateCode.do")
 	public void validateCode(HttpServletRequest request,HttpSession session,HttpServletResponse response){
-		int w = 192, h = 60;
+		int w = 192, h = 60;//设置图片宽/高
 		try {
 		String verification_Code=vc.generateVerifyCode(4);//验证码位数
 		session.setAttribute("vcode",verification_Code);//存入session，登录时匹配
@@ -103,7 +103,7 @@ public class LoginSystemAction {
 				dispatcher.forward(request, response);
 				return ;
 			}
-			response.sendRedirect("index.jsp");
+			response.sendRedirect("index.do");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

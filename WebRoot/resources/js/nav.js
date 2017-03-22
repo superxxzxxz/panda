@@ -5,7 +5,7 @@ var navs = [{
 	"children": [{
 		"title": "模块管理",
 		"icon": "&#xe630;",
-		"href": ""
+		"href": "secureaccessurl.do?path=systemmanagement/systemManagement"
 	},{
 		"title": "用户管理",
 		"icon": "&#xe612;",

@@ -119,8 +119,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<script>
 				layui.use('layer', function() {
 					var $ = layui.jquery,
-						layer = layui.layer;
-
+					layer = layui.layer;
 					$('#video1').on('click', function() {
 						layer.open({
 							title: '关于',
