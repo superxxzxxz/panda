@@ -49,7 +49,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     	}
     </script>
   <body style="background-color: whitesmoke; ">
-		<div class="login-title"><img src="resources/images/logo-pandassss.png"></img></div>
+		<div class="login-title"><img src="resources/images/logo-panda.png"></img></div>
 		<div class="login-window">
 			<div class="login-window-input">
 				<form action="userLoginAction.do" class="layui-form layui-form-pane" onsubmit="return login_onsubmit()" method="post">
@@ -59,13 +59,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<input id="login-btn" class="login-btn" type="submit" name="login-btn" value="登    录" /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					<label for="save-pwd-checkbox"><input class="save-pwd-checkbox" id="save-pwd-checkbox" name="savepwd" type="checkbox" value="true" <%=request.getAttribute("logineduserpassword")!=null?"checked='checked'":"" %>/><span class="save-pwd">&nbsp;&nbsp;保存密码</span></label> -->
 					    <div class="layui-form-item">
-						    <label class="layui-form-label"><img style="vertical-align: middle;" src="resources/images/login-accounts.png" />&nbsp;帐 号</label>
+						    <label class="layui-form-label"><img style="vertical-align: middle;" src="resources/images/login-account.png" />&nbsp;帐 号</label>
 						    <div class="layui-input-inline">
 						      <input id="account" name="account" lay-verify="account" placeholder="请输入帐号" autocomplete="off" class="layui-input" type="text" value="${loginedusername}"/>
 						    </div>
   						</div>
   						 <div class="layui-form-item">
-						    <label class="layui-form-label"><img style="vertical-align: middle;" src="resources/images/login-passwords.png" />&nbsp;密 码</label>
+						    <label class="layui-form-label"><img style="vertical-align: middle;" src="resources/images/login-password.png" />&nbsp;密 码</label>
 						    <div class="layui-input-inline">
 						      <input id="password" name="password" lay-verify="password" placeholder="请输入密码" autocomplete="off" class="layui-input" type="password" value="${logineduserpassword}"/>
 						    </div>

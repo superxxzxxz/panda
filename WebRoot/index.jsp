@@ -24,7 +24,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="layui-main">
 					<div class="admin-login-box">
 						<div class="logo" href="#">
-							<img class="logo-panda" src="resources/images/logo-pandassss.png"></img>
+							<img class="logo-panda" src="resources/images/logo-panda.png"></img>
 						</div>
 						<div title="隐藏菜单" class="admin-side-toggle">
 							<i class="fa fa-bars" aria-hidden="true"></i>
