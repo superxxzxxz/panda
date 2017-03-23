@@ -10,6 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.xxz.common.tool.Pub;
 @Controller
 public class IndexAction {
+	/**
+	 * 判断用户是否登录
+	 * @param request
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping("/index.do")
 	public String urlIndex(HttpServletRequest request, HttpSession session){
 		if(session.getAttribute("user")==null){
@@ -18,7 +24,11 @@ public class IndexAction {
 			return "../../index";
 		}
 	}
-	
+	/**
+	 * 登录入口
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("/login.do")
 	public String urlLogin(HttpServletRequest request){
 		Cookie[] cookies=request.getCookies(); 
@@ -39,6 +49,11 @@ public class IndexAction {
 		}
 		return "../../login";
 	}
+	/**
+	 * 访问web-inf下jsp（固定路径）
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping("/secureaccessurl.do")
 	public String secureAccessURL(HttpServletRequest request){
 		String path = request.getParameter("path");

@@ -74,7 +74,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   						 <label class="layui-form-label"><img src="resources/images/login-verification.png"></img>&nbsp;验 证</label>
 				            <div class="layui-input-inline">
 				                <input type="text" id="verification_code" name="verification_code" lay-verify="verification_code" placeholder="验证码" autocomplete="off" class="layui-input">
-				                <div class="captcha"><img id="verification_img" name="verification_img" src="" alt="" title='点击切换' onclick="validateCode()"></div>
+				                <div class="captcha"><img id="verification_img" name="verification_img" src="" alt="" title='换一张' onclick="validateCode()"></div>
 				            </div>
         				</div>
   						<div class="login-bottom-tool">

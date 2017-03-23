@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import javax.servlet.FilterConfig;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -42,7 +43,7 @@ public class LoginSystemAction {
 	 */
 	@RequestMapping("/validateCode.do")
 	public void validateCode(HttpServletRequest request,HttpSession session,HttpServletResponse response){
-		int w = 192, h = 60;//设置图片宽/高
+		int w =160, h = 60;//设置图片宽/高
 		try {
 		String verification_Code=vc.generateVerifyCode(4);//验证码位数
 		session.setAttribute("vcode",verification_Code);//存入session，登录时匹配
@@ -111,5 +112,23 @@ public class LoginSystemAction {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	/**
+	 * 用户注销
+	 * @param session
+	 * @throws IOException 
+	 * @throws ServletException 
+	 */
+	@RequestMapping("/userLogout.do")
+	public void userLogout(HttpSession session,HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException{
+		//session.invalidate();//销毁当前session
+		/*Cookie userck = new Cookie("logineduser", null);
+		userck.setMaxAge(0);   //删除Cookie
+		response.addCookie(userck);*/
+		System.out.println("sssssssssssssssssssssssssss");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("login.do");
+		dispatcher.forward(request, response);
+		//return "../../login.do";
+		//return ;
 	}
 }

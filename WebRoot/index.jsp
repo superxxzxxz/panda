@@ -61,7 +61,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									</a>
 								</dd>
 								<dd>
-									<a href="login.html"><i class="fa fa-sign-out" aria-hidden="true"></i> 注销</a>
+									<a href="javascript:;" onclick="user_logout()"><i class="fa fa-sign-out" aria-hidden="true"></i> 注销</a>
 								</dd>
 							</dl>
 						</li>
@@ -113,10 +113,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 			</script>
 			<!--锁屏模板 end -->
+			<script type="text/javascript" src="resources/js/jquery-3.1.1.min.js"></script>
 			<script type="text/javascript" src="resources/layui/layui.js"></script>
 			<script type="text/javascript" src="resources/js/nav.js"></script>
-			<script src="resources/js/index.js"></script>
-			<script>
+			<script type="text/javascript" src="resources/js/index.js"></script>
+			<script type="text/javascript">
 				layui.use('layer', function() {
 					var $ = layui.jquery,
 					layer = layui.layer;
@@ -129,8 +130,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							area: ['800px', '500px']
 						});
 					});
-
+					
 				});
+				function user_logout(){
+					$.post("userLogout.do");
+				}
 			</script>
 		</div>
 

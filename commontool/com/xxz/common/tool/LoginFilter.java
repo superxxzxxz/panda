@@ -27,29 +27,21 @@ public class LoginFilter implements Filter{
 	public void destroy() {
 		notFilterDir = null;
 	}
-
+	/**
+	 * LoginFilter登录验证
+	 * 1获取不验证范围<param-name>notFilterDir</param-name>正常访问
+	 * 2其他如果session中无用户表示没登录，跳转到登录页面
+	 */
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
 		try {
 			HttpServletRequest req = (HttpServletRequest) request;
 			HttpServletResponse res = (HttpServletResponse) response;
 			String uri = req.getRequestURI();
-			if (uri.indexOf(".htm") != -1||uri.replace(req.getContextPath(), "").equals("/")){//内网网站
-				chain.doFilter(request, response);
-				return;
-			}
-			if(uri.indexOf("taskFileUpload.do")!=-1||uri.indexOf("uploadassetsfile.do")!=-1||
-					uri.indexOf("getOrgCodeByIp.do")!=-1||uri.indexOf("getloginimg.do")!=-1){
-				chain.doFilter(request, response);
-				return;
-			}
 			String[] notFilterDirs = notFilterDir.split(",");
 			for (int i = 0; i < notFilterDirs.length; i++) {
 				String notFilterDirValue = notFilterDirs[i];
-				if (uri.indexOf(notFilterDirValue) != -1){
-					 if(notFilterDirValue.equals("/CallbackServlet/")){
-						 //CallbackServlet.frompostbean= Util.getFromPostBean(request.getInputStream());
-					 }
+				if (uri.indexOf(notFilterDirValue) != -1){//如果地址url包含（ <param-name>notFilterDir</param-name>）中
 					chain.doFilter(request, response);
 					return;
 				}
@@ -66,7 +58,7 @@ public class LoginFilter implements Filter{
 			}
 			HttpSession session = req.getSession();
 			if (session.getAttribute("user")==null){
-				res.sendRedirect(this.filterConfig.getServletContext().getContextPath() + "/login.jsp");
+				res.sendRedirect(this.filterConfig.getServletContext().getContextPath() + "/login.do");
 			}else{
 				chain.doFilter(request, response);
 			}
