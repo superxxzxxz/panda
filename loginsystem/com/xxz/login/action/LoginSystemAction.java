@@ -1,10 +1,7 @@
 package com.xxz.login.action;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
-
-import javax.servlet.FilterConfig;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -121,14 +118,9 @@ public class LoginSystemAction {
 	 */
 	@RequestMapping("/userLogout.do")
 	public void userLogout(HttpSession session,HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException{
-		//session.invalidate();//销毁当前session
-		/*Cookie userck = new Cookie("logineduser", null);
-		userck.setMaxAge(0);   //删除Cookie
-		response.addCookie(userck);*/
-		System.out.println("sssssssssssssssssssssssssss");
-		RequestDispatcher dispatcher = request.getRequestDispatcher("login.do");
-		dispatcher.forward(request, response);
-		//return "../../login.do";
-		//return ;
+		session.invalidate();//销毁当前session
+		System.out.println("ssssssssss");
+		response.sendRedirect("login.do");
+		
 	}
 }

@@ -1,7 +1,8 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" import="java.util.*,javax.servlet.http.HttpSession" pageEncoding="UTF-8"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+HttpSession s=request.getSession();
 %>
 <!DOCTYPE HTML>
 <html>
@@ -61,7 +62,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									</a>
 								</dd>
 								<dd>
-									<a href="javascript:;" onclick="user_logout()"><i class="fa fa-sign-out" aria-hidden="true"></i> 注销</a>
+									<a id="logout" href="javascript:;" onclick="user_logout();">
+										<i class="fa fa-sign-out" aria-hidden="true"></i>注销
+									</a>
 								</dd>
 							</dl>
 						</li>
@@ -130,11 +133,37 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							area: ['800px', '500px']
 						});
 					});
-					
 				});
-				function user_logout(){
-					$.post("userLogout.do");
-				}
+					//示范一个公告层
+					function user_logout(){
+					layer.open({
+					   type: 1
+					  ,title: false //不显示标题栏
+					  ,closeBtn: true
+					  ,isOutAnim:true
+					  ,area: '330px;'
+					  ,shade: 0.8
+					  ,id: 'user_logout' //设定一个id，防止重复弹出
+					  ,resize: false
+					  ,btn: ['确认注销', '我后悔了']
+					  ,btnAlign: 'c'
+					  ,moveType: 1 //拖拽模式，0或者1
+					  ,content: '<div style="padding: 50px; line-height: 20px; background-color: #393D49; color: #fff; font-weight: 300;"><img src="resources/images/logout.png" style="margin:-15px 5px 0px 0px;"></img>您确定要注销登录吗？</div>'
+					  ,success: function(layero){
+					  }
+					  ,yes:function(index){
+					  	layer.load(0, {shade: false}); //0代表加载的风格，支持0-2
+					  	layer.close(index);
+					  	setTimeout(function(){
+						  layer.closeAll('loading');
+						  //$.post("userLogout.do");
+						  document.getElementById("logout").href = "login.do"; 
+						  <% s.invalidate();%>
+						}, 1000);
+					  }
+					});
+					//$.post("userLogout.do");
+				 }
 			</script>
 		</div>
 

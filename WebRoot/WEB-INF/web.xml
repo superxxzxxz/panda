@@ -34,7 +34,7 @@
     <init-param>
       <param-name>notFilterDir</param-name>
       <param-value>
-      			/resources,/login.do,/validateCode.do,/userLoginAction.do
+      			/resources,/login.do,/validateCode.do,/userLoginAction.do,/userLogout.do
 	 </param-value>
     </init-param>
   </filter>
