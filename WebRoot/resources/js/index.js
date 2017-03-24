@@ -129,7 +129,7 @@ function lock($, layer) {
 		success: function(layero, lockIndex) {
 			isShowLock = true;
 			//给显示用户名赋值
-			layero.find('div#lockUserName').text('admin');
+			layero.find('div#lockUserName').text(session_username);
 			layero.find('input[name=lockPwd]').on('focus', function() {
 					var $this = $(this);
 					if($this.val() === '输入密码解锁..') {
@@ -151,14 +151,10 @@ function lock($, layer) {
 			//绑定解锁按钮的点击事件
 			layero.find('button#unlock').on('click', function() {
 				var $lockBox = $('div#lock-box');
-
 				var userName = $lockBox.find('div#lockUserName').text();
 				var pwd = $lockBox.find('input[name=lockPwd]').val();
 				if(pwd === '输入密码解锁..' || pwd.length === 0) {
-					layer.msg('请输入密码..', {
-						icon: 2,
-						time: 1000
-					});
+					layer.msg('请输入密码..', {icon:5,time: 1000});
 					return;
 				}
 				unlock(userName, pwd);
@@ -169,6 +165,7 @@ function lock($, layer) {
 			 * @param {String} 密码
 			 */
 			var unlock = function(un, pwd) {
+				if(pwd==session_password){
 				//这里可以使用ajax方法解锁
 				/*$.post('api/xx',{username:un,password:pwd},function(data){
 				 	//验证成功
@@ -184,6 +181,10 @@ function lock($, layer) {
 				//演示：默认输入密码都算成功
 				//关闭锁屏层
 				layer.close(lockIndex);
+				layer.msg('解锁成功', {icon: 6,time: 1000});
+				}else{
+					layer.msg('密码错误..', {icon: 5,time: 1000});
+				}
 			};
 		}
 	});

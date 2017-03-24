@@ -79,7 +79,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         				</div>
   						<div class="login-bottom-tool">
   							<button class="layui-btn layui-btn-normal" lay-submit lay-filter="*">登     录</button>
-  							<input id="save-pwd-checkbox" name="savepwd" title="保存密码" type="checkbox" value="true" <%=request.getAttribute("logineduserpassword")!=null?"checked='checked'":"" %>/>
+  							<input id="save-pwd-checkbox" name="savepwd" title="记住帐号" type="checkbox" value="true" <%=request.getAttribute("logineduserpassword")!=null?"checked='checked'":"" %>/>
   						</div>
 				</form>
 			</div>

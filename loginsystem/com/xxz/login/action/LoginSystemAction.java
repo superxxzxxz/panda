@@ -119,8 +119,5 @@ public class LoginSystemAction {
 	@RequestMapping("/userLogout.do")
 	public void userLogout(HttpSession session,HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException{
 		session.invalidate();//销毁当前session
-		System.out.println("ssssssssss");
-		response.sendRedirect("login.do");
-		
 	}
 }

@@ -2,7 +2,6 @@
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-HttpSession s=request.getSession();
 %>
 <!DOCTYPE HTML>
 <html>
@@ -19,6 +18,15 @@ HttpSession s=request.getSession();
 		<link rel="stylesheet" href="resources/css/global.css" />
 		<link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/font-awesome.4.6.0.css">
 	</head>
+	<script type="text/javascript" src="resources/js/jquery-3.1.1.min.js"></script>
+	<script type="text/javascript">
+	var session_userid = "${sessionScope.user.userId}";//用户ID
+	var session_username = "${sessionScope.user.username}";//用户姓名
+	var session_password = "${sessionScope.user.password}";//用户密码
+	$(function(){
+		$('#username').text(session_username);
+	});
+	</script>
 	<body>
 		<div class="layui-layout layui-layout-admin" style="border-bottom: solid 5px #1aa094;">
 			<div class="layui-header header header-demo">
@@ -46,12 +54,12 @@ HttpSession s=request.getSession();
 						</li>
 						<li class="layui-nav-item">
 							<a href="javascript:;" class="admin-header-user">
-								<img src="resources/images/0.jpg" />
-								<span>beginner</span>
+								<img class="" id="head_img" src="resources/images/0.jpg" />
+								<span id="username">beginner</span>
 							</a>
 							<dl class="layui-nav-child">
 								<dd>
-									<a href="javascript:;"><i class="fa fa-user-circle" aria-hidden="true"></i> 个人信息</a>
+									<a href="javascript:;"><i class="fa fa-user" aria-hidden="true"></i> 个人信息</a>
 								</dd>
 								<dd>
 									<a href="javascript:;"><i class="fa fa-gear" aria-hidden="true"></i> 设置</a>
@@ -63,7 +71,7 @@ HttpSession s=request.getSession();
 								</dd>
 								<dd>
 									<a id="logout" href="javascript:;" onclick="user_logout();">
-										<i class="fa fa-sign-out" aria-hidden="true"></i>注销
+										<i class="fa fa-sign-out" aria-hidden="true"></i> 注销
 									</a>
 								</dd>
 							</dl>
@@ -110,17 +118,17 @@ HttpSession s=request.getSession();
 					<div class="admin-header-lock-img">
 						<img src="resources/images/0.jpg" />
 					</div>
-					<div class="admin-header-lock-name" id="lockUserName">beginner</div>
-					<input type="text" class="admin-header-lock-input" value="输入密码解锁.." name="lockPwd" id="lockPwd" />
-					<button class="layui-btn layui-btn-small" id="unlock">解锁</button>
+					<div class="admin-header-lock-name" id="lockUserName"></div>
+					<input style="vertical-align: middle;" type="text" class="admin-header-lock-input" value="输入密码解锁.." name="lockPwd" id="lockPwd" />
+					<button class="layui-btn layui-btn-small" id="unlock" style="">解锁</button>
 				</div>
 			</script>
 			<!--锁屏模板 end -->
-			<script type="text/javascript" src="resources/js/jquery-3.1.1.min.js"></script>
 			<script type="text/javascript" src="resources/layui/layui.js"></script>
 			<script type="text/javascript" src="resources/js/nav.js"></script>
 			<script type="text/javascript" src="resources/js/index.js"></script>
 			<script type="text/javascript">
+				var logout=false;//是否确认注销/取消注销标识
 				layui.use('layer', function() {
 					var $ = layui.jquery,
 					layer = layui.layer;
@@ -134,8 +142,9 @@ HttpSession s=request.getSession();
 						});
 					});
 				});
-					//示范一个公告层
+					//注销方法
 					function user_logout(){
+				    if(logout==false){
 					layer.open({
 					   type: 1
 					  ,title: false //不显示标题栏
@@ -150,19 +159,28 @@ HttpSession s=request.getSession();
 					  ,moveType: 1 //拖拽模式，0或者1
 					  ,content: '<div style="padding: 50px; line-height: 20px; background-color: #393D49; color: #fff; font-weight: 300;"><img src="resources/images/logout.png" style="margin:-15px 5px 0px 0px;"></img>您确定要注销登录吗？</div>'
 					  ,success: function(layero){
+						  //加载成功回调
+						  logout=true;
 					  }
-					  ,yes:function(index){
-					  	layer.load(0, {shade: false}); //0代表加载的风格，支持0-2
-					  	layer.close(index);
-					  	setTimeout(function(){
-						  layer.closeAll('loading');
-						  //$.post("userLogout.do");
-						  document.getElementById("logout").href = "login.do"; 
-						  <% s.invalidate();%>
+					  ,yes:function(index, layero){//确认
+						document.getElementById("logout").href = "login.do";
+					  	layer.load(0, {shade: 0.1}); //0代表加载的风格，支持0-2
+					  	layer.close(index);//关闭确认框
+					  	setTimeout(function(){//加载层1秒
+						  layer.closeAll('loading');//关闭加载层
+						  $.post("userLogout.do");//提交删除session
+						  document.getElementById("logout").click();//点击回到login.do
 						}, 1000);
-					  }
+					  },btn2:function(index, layero){//取消
+						  document.getElementById("logout").href = "javascript:;";
+						  logout=false;
+					   }
+					  ,cancel:function(){//右上角关闭
+						  document.getElementById("logout").href = "javascript:;";
+						  logout=false;
+					   }
 					});
-					//$.post("userLogout.do");
+				    }
 				 }
 			</script>
 		</div>
