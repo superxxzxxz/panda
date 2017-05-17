@@ -17,17 +17,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script src="resources/js/require.js" data-main="resources/js/main" defer async="true" ></script>
 	<!-- js end -->
 	<script>
-		$(function(){
-			alert();
-		});
-		function click(){
-			alert();
+		function clicks(){
+			var ss=$("#ss").val();
+			alert(ss);
 		}
 	</script>
   </head>
   <body>
      日志管理<br>
-     <input type="text" id="">
-     <button type="button" onclick="click()">哈哈</button>
+     <input type="text" id="ss">
+     <button type="button" onclick="clicks()">哈哈</button>
   </body>
 </html>
