@@ -10,8 +10,11 @@ var navs = [{
 		"title": "用户管理",
 		"icon": "&#xe612;",
 		"href": "secureaccessurl.do?path=usermanagement/userManagement"
+	},{
+		"title": "日志管理",
+		"icon": "&#xe63c;",
+		"href": "secureaccessurl.do?path=logmanagement/logManagement"
 	}],
-	
 	},{"title": "生活服务",
 	"icon": "&#xe600;",
 	"spread": false,
