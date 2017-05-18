@@ -5,6 +5,7 @@
 	<classpathentry kind="src" path="commontool"/>
 	<classpathentry kind="src" path="loginsystem"/>
 	<classpathentry kind="src" path="usermanagement"/>
+	<classpathentry kind="src" path="logmanagement"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="melibrary.com.genuitec.eclipse.j2eedt.core.MYECLIPSE_JAVAEE_5_CONTAINER"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/commons-logging-1.1.1.jar"/>
