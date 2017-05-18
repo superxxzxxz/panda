@@ -2,7 +2,6 @@ package com.xxz.log.entity;
 
 import java.util.Date;
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -10,7 +9,7 @@ import javax.persistence.Table;
  * PLog entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "p_log", catalog = "panda")
+@Table(name = "p_log")
 public class PLog implements java.io.Serializable {
 
 	// Fields
