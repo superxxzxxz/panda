@@ -3,6 +3,7 @@ package com.xxz.log.entity;
 import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
@@ -37,7 +38,7 @@ public class PLog implements java.io.Serializable {
 	}
 
 	// Property accessors
-
+	@Id
 	@Column(name = "id", length = 50)
 	public String getId() {
 		return this.id;

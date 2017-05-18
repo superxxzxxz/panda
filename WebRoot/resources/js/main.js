@@ -29,7 +29,7 @@ require.config({
                       ]
           },
           bootstrapTable : {  //针对bootstrap-table依赖关系
-              deps : [ 'jquery',
+               deps : [ 'jquery',
                        'bootstrap-3.3.7-dist/js/bootstrap-table-zh-CN',
                        'css!bootstrap-3.3.7-dist/css/bootstrap-table.css' 
                      ]

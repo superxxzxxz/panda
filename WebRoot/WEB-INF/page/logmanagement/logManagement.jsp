@@ -14,7 +14,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	<!-- js start 使用require.js来管理js加载 -->
-	<script src="resources/js/jquery-3.1.1.min.js"></script>
 	<script src="resources/js/require.js"  ></script>
 	<script src="resources/js/main.js"></script>
   </head>

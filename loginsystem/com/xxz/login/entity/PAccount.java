@@ -12,7 +12,7 @@ import javax.persistence.TemporalType;
  * PAccount entity. @author MyEclipse Persistence Tools
  */
 @Entity
-@Table(name = "p_account", catalog = "panda")
+@Table(name = "p_account")
 public class PAccount implements java.io.Serializable {
 
 	// Fields
