@@ -12,8 +12,8 @@ require.config({
            jquery : 'js/jquery-3.1.1.min', 
            bootstrap: 'bootstrap-3.3.7-dist/js/bootstrap.min',
            layui : 'layui/layui',
-           bootstrapTable: 'bootstrap-3.3.7-dist/js/bootstrap-table'
-          // bootstraptablezh: 'bootstrap-3.3.7-dist/js/bootstrap-table-zh-CN'
+           bootstrapTable: 'bootstrap-3.3.7-dist/js/bootstrap-table',
+           //bootstraptablezh: 'bootstrap-3.3.7-dist/js/bootstrap-table-zh-CN'
            //css : 'js/css.min'
       },
       shim : {  //依赖关系
@@ -25,13 +25,13 @@ require.config({
           },
           layui : {  //针对layui依赖关系
                deps : [ 'jquery', 
-                       'css!../resources/layui/css/layui.css' 
+                        'css!../resources/layui/css/layui.css' 
                       ]
           },
           bootstrapTable : {  //针对bootstrap-table依赖关系
                deps : [ 'jquery',
-                       'bootstrap-3.3.7-dist/js/bootstrap-table-zh-CN',
-                       'css!bootstrap-3.3.7-dist/css/bootstrap-table.css' 
+                        'bootstrap-3.3.7-dist/js/bootstrap-table-zh-CN',
+                        'css!bootstrap-3.3.7-dist/css/bootstrap-table.css' 
                      ]
           }
      }  

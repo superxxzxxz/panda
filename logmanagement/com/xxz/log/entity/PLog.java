@@ -5,6 +5,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * PLog entity. @author MyEclipse Persistence Tools
@@ -65,7 +67,7 @@ public class PLog implements java.io.Serializable {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-
+	@Temporal(TemporalType.DATE)
 	@Column(name = "operation_time", length = 10)
 	public Date getOperationTime() {
 		return this.operationTime;

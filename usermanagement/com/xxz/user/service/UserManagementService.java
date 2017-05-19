@@ -29,7 +29,7 @@ public class UserManagementService {
 		Map<String,Object> map=new HashMap<String,Object>();
 		String hql="from PAccount where 1=1";
 		String hqlSize="select count(id) from PAccount where 1=1";
-		List<PAccount> list=this.hibernateDaoImpl.find(hql);
+		List<PAccount> list=this.hibernateDaoImpl.find(hql,pageIndex,pageSize);
 		Long pages=(Long) this.hibernateDaoImpl.getObject(hqlSize);
 		map.put("list", list);
 		map.put("count", pages);
