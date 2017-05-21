@@ -2,6 +2,8 @@ package com.xxz.login.action;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.ParseException;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -15,7 +17,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.xxz.common.tool.Pub;
+import com.xxz.common.tool.Utils;
 import com.xxz.common.tool.ValidateCode;
+import com.xxz.log.entity.PLog;
+import com.xxz.log.service.LogService;
 import com.xxz.login.entity.PAccount;
 import com.xxz.login.service.LoginSystemService;
 /**
@@ -28,13 +33,28 @@ public class LoginSystemAction {
 	@Autowired
 	@Qualifier("loginSystemService")
 	private LoginSystemService loginSystemService;
+	@Autowired
+	@Qualifier("logService")
+	private LogService logservice;
+	
+	private Utils utils;//工具类
+	
+	private ValidateCode vc=new ValidateCode();//登录验证码
+	
+	public LogService getLogservice() {
+		return logservice;
+	}
+	public void setLogservice(LogService logservice) {
+		this.logservice = logservice;
+	}
+	
 	public LoginSystemService getLoginSystemService() {
 		return loginSystemService;
 	}
 	public void setLoginSystemService(LoginSystemService loginSystemService) {
 		this.loginSystemService = loginSystemService;
 	}
-	private ValidateCode vc=new ValidateCode();
+	
 	/**
 	 * 获取验证码
 	 */
@@ -56,14 +76,24 @@ public class LoginSystemAction {
 	}
 	/**
 	 * 系统登录
+	 * @throws ParseException 
 	 */
 	@RequestMapping("/userLoginAction.do")
-	public void userLoginAction(HttpServletRequest request,HttpServletResponse response,HttpSession session,String account,String password,String savepwd,String verification_code){
+	public void userLoginAction(HttpServletRequest request,HttpServletResponse response,HttpSession session,String account,String password,String savepwd,String verification_code) throws ParseException{
 		PAccount paccount=(PAccount) this.loginSystemService.userLoginService(account, password);
 		try {
 			String sendRedirectUrl="login.do";//登录后要重定向的URL
 			String sv_code=(String) session.getAttribute("vcode");//获取session中的验证码匹配
 			if(paccount!=null&&Pub.outofnull(sv_code).equalsIgnoreCase(Pub.outofnull(verification_code))){//用户不为空并且验证码相等（验证码不考虑大小写）
+				//日志记录
+				PLog plog=new PLog();
+				plog.setId(String.valueOf(System.currentTimeMillis()));
+				plog.setUserid(paccount.getuserId());
+				plog.setUsername(paccount.getUsername());
+				plog.setOperationTime(utils.getNowDate("y"));
+				plog.setOperationIp(utils.getIpAddress(request));
+				plog.setOperationTerm("1");
+				this.logservice.savePLog(plog);
 				session.setAttribute("user",paccount);
 				Cookie[] cookies=request.getCookies(); 
 				boolean isc=true;
@@ -115,9 +145,20 @@ public class LoginSystemAction {
 	 * @param session
 	 * @throws IOException 
 	 * @throws ServletException 
+	 * @throws ParseException 
 	 */
 	@RequestMapping("/userLogout.do")
-	public void userLogout(HttpSession session,HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException{
+	public void userLogout(HttpSession session,HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException, ParseException{
+		//日志记录
+		PAccount paccount=(PAccount) session.getAttribute("user");
+		PLog plog=new PLog();
+		plog.setId(String.valueOf(System.currentTimeMillis()));
+		plog.setUserid(paccount.getuserId());
+		plog.setUsername(paccount.getUsername());
+		plog.setOperationTime(utils.getNowDate("y"));
+		plog.setOperationIp(utils.getIpAddress(request));
+		plog.setOperationTerm("0");
+		this.logservice.savePLog(plog);
 		session.invalidate();//销毁当前session
 	}
 }

@@ -10,29 +10,25 @@ require.config({
       },
       paths : {  //paths ：js文件路径;
            jquery : 'js/jquery-3.1.1.min', 
-           bootstrap: 'bootstrap-3.3.7-dist/js/bootstrap.min',
            layui : 'layui/layui',
-           bootstrapTable: 'bootstrap-3.3.7-dist/js/bootstrap-table',
-           //bootstraptablezh: 'bootstrap-3.3.7-dist/js/bootstrap-table-zh-CN'
-           //css : 'js/css.min'
+           datetimepickerzh:'bootstrap-3.3.7-dist/js/bootstrap-datetimepicker.zh-CN',
+           bootstraptablezh: 'bootstrap-3.3.7-dist/js/bootstrap-table-zh-CN'
       },
       shim : {  //依赖关系
-    	  bootstrap : {  //针对bootstrap依赖关系
-               deps : [ 'jquery' , 
-                        'css!bootstrap-3.3.7-dist/css/bootstrap.min.css' 
-                      ]
-               //exports : 'bootstrap'  
-          },
-          layui : {  //针对layui依赖关系
-               deps : [ 'jquery', 
-                        'css!../resources/layui/css/layui.css' 
-                      ]
-          },
-          bootstrapTable : {  //针对bootstrap-table依赖关系
-               deps : [ 'jquery',
-                        'bootstrap-3.3.7-dist/js/bootstrap-table-zh-CN',
-                        'css!bootstrap-3.3.7-dist/css/bootstrap-table.css' 
+          bootstraptablezh : {  //由于bootstraptablezh要在依赖之后加载
+              deps : [ 'jquery' , 
+                       'bootstrap-3.3.7-dist/js/bootstrap.min',
+                       'bootstrap-3.3.7-dist/js/bootstrap-table',
+                       'bootstrap-3.3.7-dist/js/bootstrap-datetimepicker.min',
+                       'css!bootstrap-3.3.7-dist/css/bootstrap.min.css',
+                       'css!bootstrap-3.3.7-dist/css/bootstrap-table.css',
+                       'css!../resources/bootstrap-3.3.7-dist/css/docs.min.css',
+                       'css!../resources/bootstrap-3.3.7-dist/css/bootstrap-datetimepicker.min.css'
                      ]
-          }
+         },
+         datetimepickerzh : {  //针对datetimepickerzh依赖关系,在jquery之后
+             deps : [ 'jquery'
+                    ]
+        }
      }  
 });  

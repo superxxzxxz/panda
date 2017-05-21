@@ -44,7 +44,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 					<ul class="layui-nav admin-header-item">
 						<li class="layui-nav-item">
-							<a href="javascript:;">清 除 缓 存</a>
+							<a href="javascript:clearCache();">清 除 缓 存</a>
 						</li>
 						<li class="layui-nav-item">
 							<a href="javascript:;">浏 览 网 站</a>
@@ -182,9 +182,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					});
 				    }
 				 }
+				 //清除浏览器缓存
+				 function clearCache(){
+				 	$.ajax({
+					     url:'',
+					     dataType:'json',
+					     data:{},
+					     cache:false, 
+					     ifModified :true ,
+					     success:function(response){
+					     },
+					     async:false
+  						});
+  						layer.msg('缓存清除成功！', {
+						  icon: 1,
+						  time: 1000 //1秒关闭（如果不配置，默认是3秒）
+						}, function(){
+						  //do something
+						});   
+				 }
 			</script>
 		</div>
-
 	</body>
-
 </html>

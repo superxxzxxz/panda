@@ -1,6 +1,11 @@
 package com.xxz.log.action;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -10,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.xxz.log.service.LogService;
-import com.xxz.user.service.UserManagementService;
 
 @Controller
 @RequestMapping("/LogAction")
@@ -28,13 +32,16 @@ public class LogAction {
 	}
 	/**
 	 * 查询所有日志记录
-	 * @param limit
-	 * @param offset
+	 * @param pageNumber 页码
+	 * @param pageSize 每一页显示的条数
+	 * @param sortName 要排序的列名
+	 * @param sortOrder 定义排序方式 'asc' 或者 'desc'
 	 * @return
 	 */
-	@RequestMapping(value="/getAllLog.do", method = RequestMethod.GET)
+	@RequestMapping(value="/getAllLog.do")
 	@ResponseBody 
-	public Map getAllLog(int pageNumber, int pageSize){
-		return this.logService.getAllLog(pageNumber,pageSize);
+	public Map getAllLog(HttpSession sessoin,HttpServletRequest request, int pageNumber, int pageSize,String sortName,String sortOrder,String userName,String startDate,String endDate){
+		//String userName=URLDecoder.decode(request.getParameter("userName"),"GBK");
+		return this.logService.getAllLog(sessoin,request,pageNumber,pageSize,sortName,sortOrder,userName,startDate,endDate);
 	}
 }

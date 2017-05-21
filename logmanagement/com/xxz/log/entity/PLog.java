@@ -22,6 +22,7 @@ public class PLog implements java.io.Serializable {
 	private String username;
 	private Date operationTime;
 	private String operationIp;
+	private String operationTerm;
 
 	// Constructors
 
@@ -29,19 +30,25 @@ public class PLog implements java.io.Serializable {
 	public PLog() {
 	}
 
+	/** minimal constructor */
+	public PLog(String id) {
+		this.id = id;
+	}
+
 	/** full constructor */
-	public PLog(String id, String userid, String username,
-			Date operationTime, String operationIp) {
+	public PLog(String id, String userid, String username, Date operationTime,
+			String operationIp, String operationTerm) {
 		this.id = id;
 		this.userid = userid;
 		this.username = username;
 		this.operationTime = operationTime;
 		this.operationIp = operationIp;
+		this.operationTerm = operationTerm;
 	}
 
 	// Property accessors
 	@Id
-	@Column(name = "id", length = 50)
+	@Column(name = "id", unique = true, nullable = false, length = 50)
 	public String getId() {
 		return this.id;
 	}
@@ -67,8 +74,9 @@ public class PLog implements java.io.Serializable {
 	public void setUsername(String username) {
 		this.username = username;
 	}
-	@Temporal(TemporalType.DATE)
-	@Column(name = "operation_time", length = 10)
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "operation_time", length = 19)
 	public Date getOperationTime() {
 		return this.operationTime;
 	}
@@ -84,6 +92,15 @@ public class PLog implements java.io.Serializable {
 
 	public void setOperationIp(String operationIp) {
 		this.operationIp = operationIp;
+	}
+
+	@Column(name = "operation_term", length = 50)
+	public String getOperationTerm() {
+		return this.operationTerm;
+	}
+
+	public void setOperationTerm(String operationTerm) {
+		this.operationTerm = operationTerm;
 	}
 
 }
