@@ -11,6 +11,7 @@ require.config({
       paths : {  //paths ：js文件路径;
            jquery : 'js/jquery-3.1.1.min', 
            layui : 'layui/layui',
+           //layer: '../resources/layer/layer',
            datetimepickerzh:'bootstrap-3.3.7-dist/js/bootstrap-datetimepicker.zh-CN',
            bootstraptablezh: 'bootstrap-3.3.7-dist/js/bootstrap-table-zh-CN'
       },
@@ -26,6 +27,18 @@ require.config({
                        'css!../resources/bootstrap-3.3.7-dist/css/bootstrap-datetimepicker.min.css'
                      ]
          },
+         layui : {  //由于layui要在依赖之后加载
+             deps : [ 'jquery',
+                      '../resources/layer/layer',
+                      'css!../resources/layer/mobile/need/layer.css',
+                      'css!../resources/layui/css/layui.css'
+                    ]
+         },
+        /* layer : {  //由于layui要在依赖之后加载
+             deps : [ 'jquery',
+                      'css!../resources/layer/skin/default/layer.css'
+                    ]
+         },*/
          datetimepickerzh : {  //针对datetimepickerzh依赖关系,在jquery之后
              deps : [ 'jquery'
                     ]

@@ -10,19 +10,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <title>日志管理</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	<!-- js start 使用require.js来管理js加载 -->
 	<script src="resources/js/require.js"></script>
 	<script src="resources/js/main.js"></script>
+	<!--<script src="resources/layer/layer.js"></script>
+	<link rel="stylesheet" href="resources/layer/mobile/need/layer.css" type="text/css"></link> -->
   </head>
   <script>
-  require(['bootstraptablezh','datetimepickerzh'], function() {  //加载模块
+  require(['bootstraptablezh','datetimepickerzh','layui'], function() {  //加载模块
+	  		//var hei=document.body.clientHeight;
+	  		//var wid=document.body.clientWidth-100;
 			$('#logtable').bootstrapTable({
 			        url: 'LogAction/getAllLog.do',      //请求后台的URL（*）
 		            method: 'get',                      //请求方式（*）
-		            toolbar: '#logtoolbar',             //工具按钮用哪个容器
+		            //toolbar: '#logtoolbar',             //工具按钮用哪个容器
 		            striped: true,                      //是否显示行间隔色
 		            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
 		            pagination: true,                   //是否显示分页（*）
@@ -44,7 +49,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		            minimumCountColumns: 0,             //最少允许的列数
 		            clickToSelect: true,                //是否启用点击选中行
 		            singleSelect: false,                //复选框只能选择一条记录
-		            height:440,                         //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+		            height:document.body.clientHeight-80,                         //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
 		            uniqueId: "id",                     //每一行的唯一标识，一般为主键列
 		            cardView: false,                    //是否显示详细视图
 		            detailView: false,                  //是否显示父子表
@@ -147,21 +152,54 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			var startDate=$("#startDate input").val();
 			var endDate=$("#endDate input").val();
 			$("#logtable").bootstrapTable('refresh', {url:'LogAction/getAllLog.do',query: {userName:userName,startDate:startDate,endDate:endDate}});
+		},
+		//删除已选择日志
+		
+		deleteLog:function(){
+			/*layui.config({
+				base: 'resources'
+			}).use('layer', function(){//lay/modules/layer','layui/css/modules/layer/default/layer.css*/
+			var logrow=$('#logtable').bootstrapTable('getAllSelections');
+			if(logrow.length>=1){
+					layer.confirm('确定删除已选中的<span style="color:red;">&nbsp;"'+logrow.length+'"&nbsp;</span>条日志？', {
+						  btn: ['确认删除','取消'] //按钮
+						}, function(index){
+							//删除操作
+							/*$.ajax({
+							  type: 'POST',
+							  url: 'UserManagementAction/deleteUser.do',
+							  data: {userid:dataValues.userId},
+							  dataType: 'text',
+							  async:false,
+							  success:function(delete_data){
+								if(delete_data=="success"){
+									window.location.reload();//tab刷新
+									layer.close(index);//关闭询问框
+									layer.msg('成功删除！', {icon:1});
+								}else{
+									layer.close(index);//关闭询问框
+									layer.msg('删除失败，请联系管理员。', {icon:5});
+								}
+							  }
+							});*/
+						}, function(){
+							//取消删除
+						});
+			
+			}else{
+				layer.msg('请选择一条或多条日志信息', {icon:5});
+				layer.msg("sss");
+				//alert();
+			}
+			//});
 		}
+		
 	}
   </script>
-  <body>
-  	<!-- <div style="margin:6px 0px 0px 15px; background-color: white;width: 98%;">
-			<blockquote class="layui-elem-quote" style="border-left: 5px solid #0078AD;">
-				 <button type="button" class="btn btn-danger">删除</button>
-			</blockquote>
-	</div> 
-	<div id="logtoolbar" style="padding: 0px 20px;">
-		<button id="remove" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i>删除</button>
-	</div>-->
+  <body style="overflow:hidden;">
 	<!-- 工具栏 -->
-	<div id="callout-glyphicons-location" class="bs-callout bs-callout-info" style="">
-		<div style="float: left;margin-right: 20px;"><button id="remove" class="btn btn-danger"><i class="glyphicon glyphicon-remove"></i> 删除已选</button></div>
+	<div id="callout-glyphicons-location" class="bs-callout bs-callout-info">
+		<div style="float: left;margin-right: 20px;"><button id="remove" class="btn btn-danger" onclick="log.deleteLog()"><i class="glyphicon glyphicon-remove"></i> 删除已选</button></div>
 		<div class="input-group" style="width:200px;float: left;margin-right:10px" >
 		  <span class="input-group-addon" id="basic-username">姓名</span>
 		  <input id="userName" type="text" class="form-control" placeholder="用户姓名(模糊)" aria-describedby="basic-username">
@@ -186,6 +224,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         	</div>  
         	<div style="margin-left:10px; float:left;"><button type="button" class="btn btn-primary" onclick="log.logsearch()"><i class="glyphicon glyphicon-search"></i> 查询</button></div>
     </div>  
-	<table id="logtable"></table>
+	<div style="width:98%;margin: 15px auto;"><table id="logtable"></table></div>
   </body>
 </html>
