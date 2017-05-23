@@ -58,7 +58,13 @@ public class LogService {
 		map.put("total", pages);
 		return map;
 	}
+	public PLog getPLogId(String id) throws Exception{
+		return (PLog) this.hibernateDaoImpl.get(PLog.class,id);
+	}
 	public void savePLog(PLog plog){
 		this.hibernateDaoImpl.save(plog);
+	}
+	public void deletePLog(List dlist){
+		this.hibernateDaoImpl.deleteAll(dlist);
 	}
 }

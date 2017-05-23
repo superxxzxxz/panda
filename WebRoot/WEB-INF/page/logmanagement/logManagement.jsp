@@ -17,13 +17,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!-- js start 使用require.js来管理js加载 -->
 	<script src="resources/js/require.js"></script>
 	<script src="resources/js/main.js"></script>
-	<!--<script src="resources/layer/layer.js"></script>
-	<link rel="stylesheet" href="resources/layer/mobile/need/layer.css" type="text/css"></link> -->
   </head>
   <script>
-  require(['bootstraptablezh','datetimepickerzh','layui'], function() {  //加载模块
-	  		//var hei=document.body.clientHeight;
-	  		//var wid=document.body.clientWidth-100;
+ 
+  require(['bootstraptablezh','datetimepickerzh','layui','layer'], function() {  //加载模块
 			$('#logtable').bootstrapTable({
 			        url: 'LogAction/getAllLog.do',      //请求后台的URL（*）
 		            method: 'get',                      //请求方式（*）
@@ -121,7 +118,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			var s = time.getSeconds();
 			return y+'-'+add0(m)+'-'+add0(d)+' '+add0(h)+':'+add0(mm)+':'+add0(s);
 			}
-	});
+  });
 	log={
 		queryParams:function(params){
 		  var userName=$("#userName").val();
@@ -130,13 +127,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		  var temp = { //这里的键的名字和控制器的变量名必须一致，这边改动，控制器也需要改成一样的
 		  pageSize: params.pageSize, //页面大小
 		  pageNumber: params.pageNumber, //页码
-		  //minSize: $("#leftLabel").val(),
-		  //maxSize: $("#rightLabel").val(),
-		  //minPrice: $("#priceleftLabel").val(),
-		  //maxPrice: $("#pricerightLabel").val(),
-		  //Cut: Cut,
-		  //Color: Color,
-		  //Clarity: Clarity,
 		  sortName: params.sortName, //排序列名
 		  sortOrder: params.sortOrder,//排位命令（desc，asc）
 		  userName:userName,
@@ -154,47 +144,51 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			$("#logtable").bootstrapTable('refresh', {url:'LogAction/getAllLog.do',query: {userName:userName,startDate:startDate,endDate:endDate}});
 		},
 		//删除已选择日志
-		
 		deleteLog:function(){
 			/*layui.config({
-				base: 'resources'
-			}).use('layer', function(){//lay/modules/layer','layui/css/modules/layer/default/layer.css*/
+				base: 'resources/layui/'
+			}).use('lay/modules/layer', function(){//lay/modules/layer','layui/css/modules/layer/default/layer.css*/
 			var logrow=$('#logtable').bootstrapTable('getAllSelections');
+			var logid="";
 			if(logrow.length>=1){
-					layer.confirm('确定删除已选中的<span style="color:red;">&nbsp;"'+logrow.length+'"&nbsp;</span>条日志？', {
+					for(l in logrow){
+						logid+=logrow[l].id+",";
+					}
+					logid=logid.substring(0,logid.length-1);
+					layer.confirm('确定删除已选中的<span style="color:red;">&nbsp;'+logrow.length+'&nbsp;</span>条日志信息？', {
 						  btn: ['确认删除','取消'] //按钮
 						}, function(index){
 							//删除操作
-							/*$.ajax({
+							$.ajax({
 							  type: 'POST',
-							  url: 'UserManagementAction/deleteUser.do',
-							  data: {userid:dataValues.userId},
+							  url: 'LogAction/deleteAllLog.do',
+							  data: {logid:logid},
 							  dataType: 'text',
 							  async:false,
 							  success:function(delete_data){
 								if(delete_data=="success"){
-									window.location.reload();//tab刷新
-									layer.close(index);//关闭询问框
-									layer.msg('成功删除！', {icon:1});
+									$('#logtable').bootstrapTable("refresh");
+									layer.msg('删除成功！', {icon:1});
 								}else{
-									layer.close(index);//关闭询问框
 									layer.msg('删除失败，请联系管理员。', {icon:5});
 								}
 							  }
-							});*/
+							});
 						}, function(){
 							//取消删除
+							layer.msg('您取消了删除操作', {time:1000,icon:1});
 						});
 			
 			}else{
 				layer.msg('请选择一条或多条日志信息', {icon:5});
-				layer.msg("sss");
+				//layer.msg("sss");
 				//alert();
 			}
 			//});
 		}
 		
 	}
+	
   </script>
   <body style="overflow:hidden;">
 	<!-- 工具栏 -->
