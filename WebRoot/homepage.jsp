@@ -20,7 +20,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   <body>
    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-   <div id="echarts-main" style="width: 500px;height:300px;border: 1px ;"></div>
+   <div id="echarts-main" style="width: 450px;height:250px;border: 1px solid #1AA094;"></div>
    <script type="text/javascript">
    require(['echarts'], function(echarts) {  //加载模块
 	 // 基于准备好的dom，初始化echarts实例
@@ -28,7 +28,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 	 var dataAxis = ['点', '击', '柱', '子', '或', '者', '两', '指', '在', '触', '屏', '上', '滑', '动', '能', '够', '自', '动', '缩', '放'];
 	 var data = [220, 182, 191, 234, 290, 330, 310, 123, 442, 321, 90, 149, 210, 122, 133, 334, 198, 123, 125, 220];
-	 var yMax = 500;
+	 var yMax = 1000;
 	 var dataShadow = [];
 
 	 for (var i = 0; i < data.length; i++) {
@@ -37,8 +37,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 	 option = {
 	     title: {
-	         text: '系统日志信息',
-	         x: 'left'
+	         text: '本周用户访问量',
+	         x: 'center',
 	         //subtext: 'Feature Sample: Gradient Color, Shadow, Click Zoom'
 	     },
 	     tooltip: {
@@ -46,23 +46,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	          formatter: "{a} <br/>{b} : {c} ({d}%)"
 		     },
 	     legend: {
-             data:['日志']
+	         //backgroundColor:'#1AA094',
+	         show:true,
+	         shadowColor: 'red',
+	         borderColor:'red',
+	         inactiveColor:'#999999',
+             data:['日志'],
+             bottom:'10px',
+             left:'40%'
          },
 	     xAxis: {
-	         data: dataAxis,
-	         axisLabel: {
-	             inside: true,
-	             textStyle: {
-	                 color: '#fff'
-	             }
-	         },
-	         axisTick: {
-	             show: false
-	         },
-	         axisLine: {
-	             show: false
-	         },
-	         z: 10
+	         data: ['周日','周一','周二','周三','周四','周五','周六'],
+	       axisTick: {
+                alignWithLabel: true
+            }
 	     },
 	     yAxis: {
 	         axisLine: {
@@ -101,9 +98,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                     color: new echarts.graphic.LinearGradient(
 	                         0, 0, 0, 1,
 	                         [
-	                             {offset: 0, color: '#83bff6'},
-	                             {offset: 0.5, color: '#188df0'},
-	                             {offset: 1, color: '#188df0'}
+	                             {offset: 0, color: '#1AA094'},
+	                             {offset: 0.5, color: '#1AA094'},
+	                             {offset: 1, color: '#1AA094'}
 	                         ]
 	                     )
 	                 },
@@ -116,7 +113,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	                             {offset: 1, color: '#83bff6'}
 	                         ]
 	                     )
-	                 }
+	                 }	
 	             },
 	             data: data
 	         }
