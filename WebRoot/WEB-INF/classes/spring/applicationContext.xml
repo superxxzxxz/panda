@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+           http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd"
+	default-autowire="byName" default-lazy-init="false">
+	<!-- 启用spring mvc注解 -->
+	<context:annotation-config />
+	<context:component-scan base-package="com">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+    <!-- <task:annotation-driven/>定时器注解 -->
+	<context:component-scan base-package="com.atsoft.configservlet"/> 
+	<!-- Data Source -->
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations" value="classpath:mysqlconf.properties"></property>
+	</bean>
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<property name="driverClass" value="${db.driverClass}"></property>
+		<property name="jdbcUrl" value="${db.url}"></property>
+		<property name="user" value="${db.user}"></property>
+		<property name="password" value="${db.password}"></property>
+		<property name="maxPoolSize" value="10"></property>
+		<property name="initialPoolSize" value="5"></property>
+		<property name="acquireIncrement" value="5"></property>
+	</bean>
+	<!-- Hibernate 的SessionFactory -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource">
+			<ref local="dataSource"/>
+		</property>
+		<property name="packagesToScan">
+			<list>
+				<value>com</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<!--Oracle <prop key="hibernate.dialect">org.hibernate.dialect.OracleDialect</prop> -->
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+			</props>
+		</property>
+	</bean>
+	<!--Hibernate TransactionManager-->
+	<!-- 事务管理器 -->
+	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	 <!-- 事务拦截器,激活事务管理器所必须的bean -->
+	<bean id="transactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
+		<property name="transactionManager" ref="transactionManager" />
+		  <!-- 配置事务属性 --> 
+		<property name="transactionAttributes">
+			<props>
+				<prop key="save*">PROPAGATION_REQUIRED, -Exception</prop>   
+				<prop key="add*">PROPAGATION_REQUIRED, -Exception</prop>               
+				<prop key="update*">PROPAGATION_REQUIRED, -Exception</prop>                
+				<prop key="delete*">PROPAGATION_REQUIRED, -Exception</prop>                
+				<prop key="do*">PROPAGATION_REQUIRED, -Exception</prop>                
+				<prop key="recv*">PROPAGATION_REQUIRED, -Exception</prop>    
+				<prop key="find*">PROPAGATION_REQUIRED,readOnly</prop>    
+				<prop key="get*">PROPAGATION_REQUIRED,readOnly</prop>    
+				<prop key="send*">PROPAGATION_REQUIRED, -Exception</prop>
+				<prop key="cancel*">PROPAGATION_REQUIRED, -Exception</prop>
+				<prop key="*">PROPAGATION_REQUIRED, -Exception</prop>
+			</props>
+		</property>
+	</bean>
+	  <!-- 定义事务处理代理bean,他需要两个属性,一个是指定需要代理的bean,另一个是代理bean所需的事务拦截器 -->
+	<bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="beanNames">
+			<list>
+				<value>*Service</value>
+			</list>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>transactionInterceptor</value>
+			</list>
+		</property>
+	</bean>
+	</beans>
